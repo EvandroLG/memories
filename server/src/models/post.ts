@@ -1,15 +1,19 @@
-import { Schema, model } from "mongoose";
+import "reflect-metadata";
+import { Field, ID, ObjectType } from "type-graphql";
+import { prop as Property, getModelForClass } from "@typegoose/typegoose";
 
-const PostSchema = new Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
+@ObjectType({ description: "The Post model" })
+export class PostSchema {
+  @Field(() => ID)
+  id: number;
 
-  description: {
-    type: String,
-    trim: true,
-  },
-});
+  @Field()
+  @Property({ default: Date.now() })
+  createdAt?: Date;
 
-export default model("Post", PostSchema);
+  @Field()
+  @Property()
+  description: String;
+}
+
+export default getModelForClass(PostSchema);

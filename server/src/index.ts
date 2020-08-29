@@ -1,18 +1,24 @@
+import "reflect-metadata";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
+import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 
 import routes from "./routes";
-import { HelloResolver } from "./resolvers/hello";
+import { PostResolver } from "./resolvers/post";
 
 (async function () {
+  mongoose.connect("mongodb://127.0.0.1:27017/memories", {
+    useNewUrlParser: true,
+  });
+
   const port = process.env.PORT || 9090;
   const app = express();
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver],
+      resolvers: [PostResolver],
       validate: false,
     }),
   });
