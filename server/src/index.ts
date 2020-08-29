@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import cors from "cors";
@@ -22,18 +22,6 @@ import { HelloResolver } from "./resolvers/hello";
   app.use(helmet());
   app.use(cors());
   app.use(routes);
-
-  app.use(
-    (
-      error: Error & { status: number; message: string },
-      _: Request,
-      res: Response
-    ) => {
-      res.status(error.status ?? 500).json({
-        message: error.message,
-      });
-    }
-  );
 
   app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}`);
