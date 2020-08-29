@@ -15,16 +15,27 @@ export class PostResolver {
     });
   }
 
-  @Mutation(() => PostSchema)
+  @Mutation(() => PostSchema, { nullable: true })
   async updatePost(
     @Arg("id") id: String,
     @Arg("description") description: String
   ) {
-    return await Post.findByIdAndUpdate(id, { description });
+    try {
+      const found = await Post.findByIdAndUpdate(id, { description });
+      return found;
+    } catch {
+      return null;
+    }
   }
 
-  @Mutation(() => PostSchema)
+  @Mutation(() => Boolean)
   async deletePost(@Arg("id") id: String) {
-    return await Post.findByIdAndDelete(id);
+    try {
+      await Post.findByIdAndDelete(id);
+    } catch {
+      return false;
+    }
+
+    return true;
   }
 }

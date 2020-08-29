@@ -7,7 +7,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import routes from "./routes";
-import { PostResolver } from "./resolvers/post";
+import { PostResolver } from "./resolvers/";
 
 (async function () {
   mongoose.connect("mongodb://127.0.0.1:27017/memories", {
