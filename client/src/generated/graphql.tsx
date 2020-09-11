@@ -50,6 +50,19 @@ export type MutationDeletePostArgs = {
   id: Scalars['String'];
 };
 
+export type NewPostMutationVariables = Exact<{
+  description: Scalars['String'];
+}>;
+
+
+export type NewPostMutation = (
+  { __typename?: 'Mutation' }
+  & { createPost: (
+    { __typename?: 'PostSchema' }
+    & Pick<PostSchema, 'id' | 'createdAt' | 'description'>
+  ) }
+);
+
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -62,6 +75,40 @@ export type GetPostsQuery = (
 );
 
 
+export const NewPostDocument = gql`
+    mutation newPost($description: String!) {
+  createPost(description: $description) {
+    id
+    createdAt
+    description
+  }
+}
+    `;
+export type NewPostMutationFn = Apollo.MutationFunction<NewPostMutation, NewPostMutationVariables>;
+
+/**
+ * __useNewPostMutation__
+ *
+ * To run a mutation, you first call `useNewPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newPostMutation, { data, loading, error }] = useNewPostMutation({
+ *   variables: {
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useNewPostMutation(baseOptions?: Apollo.MutationHookOptions<NewPostMutation, NewPostMutationVariables>) {
+        return Apollo.useMutation<NewPostMutation, NewPostMutationVariables>(NewPostDocument, baseOptions);
+      }
+export type NewPostMutationHookResult = ReturnType<typeof useNewPostMutation>;
+export type NewPostMutationResult = Apollo.MutationResult<NewPostMutation>;
+export type NewPostMutationOptions = Apollo.BaseMutationOptions<NewPostMutation, NewPostMutationVariables>;
 export const GetPostsDocument = gql`
     query GetPosts {
   posts {
