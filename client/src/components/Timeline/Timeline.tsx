@@ -6,6 +6,7 @@ function Timeline() {
   const { loading, data } = useGetPostsQuery();
 
   if (loading) return <p>Loading...</p>;
+  if (!data) return null;
 
   return <TimelineItems data={data} />;
 }
