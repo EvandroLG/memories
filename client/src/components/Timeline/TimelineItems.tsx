@@ -6,8 +6,8 @@ type PropType = {
 };
 
 function TimelineItems({ data }: PropType) {
-  const posts = data.posts?.map(({ description, createdAt }) => (
-    <div>
+  const posts = data.posts?.map(({ id, description, createdAt }) => (
+    <div key={id}>
       <p>{description}</p>
       <p>{createdAt}</p>
     </div>

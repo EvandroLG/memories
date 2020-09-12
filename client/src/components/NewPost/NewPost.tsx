@@ -11,6 +11,7 @@ function NewPost() {
   const { handleSubmit, register, errors } = useForm<InputType>();
   const onSubmit = (data: InputType) => {
     newPostMutation({ variables: data });
+    window.location.href = '/';
   };
 
   return (
