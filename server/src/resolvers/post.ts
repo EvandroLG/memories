@@ -5,7 +5,7 @@ import Post, { PostSchema } from "../models/post";
 export class PostResolver {
   @Query(() => [PostSchema])
   async posts() {
-    return await Post.find();
+    return await Post.find().sort({ createdAt: -1 });
   }
 
   @Mutation(() => PostSchema)
