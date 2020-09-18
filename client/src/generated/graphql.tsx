@@ -18,6 +18,12 @@ export type Query = {
   posts: Array<PostSchema>;
 };
 
+
+export type QueryPostsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  page: Scalars['Int'];
+};
+
 /** The Post model */
 export type PostSchema = {
   __typename?: 'PostSchema';
@@ -111,7 +117,7 @@ export type NewPostMutationResult = Apollo.MutationResult<NewPostMutation>;
 export type NewPostMutationOptions = Apollo.BaseMutationOptions<NewPostMutation, NewPostMutationVariables>;
 export const GetPostsDocument = gql`
     query GetPosts {
-  posts {
+  posts(page: 1) {
     id
     description
     createdAt

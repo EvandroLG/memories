@@ -1,5 +1,5 @@
 query GetPosts {
-  posts {
+  posts(page: 1) {
     id
     description
     createdAt
