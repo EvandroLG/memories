@@ -9,15 +9,14 @@ type InputType = {
 function NewPost() {
   const [newPostMutation] = useNewPostMutation();
   const { handleSubmit, register, errors } = useForm<InputType>();
-  const onSubmit = (data: InputType) => {
-    newPostMutation({ variables: data });
+  const onSubmit = async (data: InputType) => {
+    await newPostMutation({ variables: data });
     window.location.href = '/';
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        type="text"
+      <textarea
         name="description"
         placeholder="Description"
         ref={register({ required: true })}
