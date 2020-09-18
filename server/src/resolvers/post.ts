@@ -1,11 +1,17 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Int } from "type-graphql";
 import Post, { PostSchema } from "../models/post";
 
 @Resolver()
 export class PostResolver {
   @Query(() => [PostSchema])
-  async posts() {
-    return await Post.find().sort({ createdAt: -1 });
+  async posts(
+    @Arg("page", () => Int!) page: number,
+    @Arg("limit", () => Int, { nullable: true }) limit: number | null
+  ) {
+    const _limit = Math.min(20, limit ?? 20);
+    const skip = (page - 1) * _limit;
+
+    return await Post.find().limit(_limit).skip(skip).sort({ _id: -1 });
   }
 
   @Mutation(() => PostSchema)
