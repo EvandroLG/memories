@@ -1,48 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import {
-  useGetPostsQuery,
-  useGetPostsLazyQuery,
-  GetPostsQuery,
-} from '../../generated/graphql';
-
+import React from 'react';
 import TimelineItems from './TimelineItems';
-import useScroll from './useScroll';
+import useLoadData from './useLoadData';
 
 function Timeline() {
-  const [page, setPage] = useState(2);
-  const [shouldLoadMore] = useScroll();
-  const [data, setData] = useState<GetPostsQuery | null>(null);
-
-  const { loading, data: firstData } = useGetPostsQuery({
-    variables: { page: 1 },
-  });
-
-  const [getPosts, { data: newData }] = useGetPostsLazyQuery();
-
-  useEffect(() => {
-    if (shouldLoadMore) {
-      getPosts({
-        variables: { page },
-      });
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldLoadMore, getPosts]);
-
-  useEffect(() => {
-    if (firstData) {
-      setData(firstData);
-    }
-  }, [firstData]);
-
-  useEffect(() => {
-    if (newData) {
-      setData({ posts: [...(data ? data.posts : []), ...newData.posts] });
-      setPage(page + 1);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newData]);
+  const { data, loading } = useLoadData();
 
   if (loading) return <p>Loading...</p>;
   if (!data) return null;
