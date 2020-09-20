@@ -24,21 +24,25 @@ function Timeline() {
       getPosts({
         variables: { page },
       });
-
-      setPage(page + 1);
     }
-  }, [shouldLoadMore, getPosts, page]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldLoadMore, getPosts]);
 
   useEffect(() => {
     if (firstData) {
       setData(firstData);
-      return;
+    }
+  }, [firstData]);
+
+  useEffect(() => {
+    if (newData) {
+      setData({ posts: [...(data ? data.posts : []), ...newData.posts] });
+      setPage(page + 1);
     }
 
-    if (newData) {
-      setData({ ...data, ...newData });
-    }
-  }, [firstData, newData, data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newData]);
 
   if (loading) return <p>Loading...</p>;
   if (!data) return null;
