@@ -69,7 +69,9 @@ export type NewPostMutation = (
   ) }
 );
 
-export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetPostsQueryVariables = Exact<{
+  page: Scalars['Int'];
+}>;
 
 
 export type GetPostsQuery = (
@@ -116,8 +118,8 @@ export type NewPostMutationHookResult = ReturnType<typeof useNewPostMutation>;
 export type NewPostMutationResult = Apollo.MutationResult<NewPostMutation>;
 export type NewPostMutationOptions = Apollo.BaseMutationOptions<NewPostMutation, NewPostMutationVariables>;
 export const GetPostsDocument = gql`
-    query GetPosts {
-  posts(page: 1) {
+    query GetPosts($page: Int!) {
+  posts(page: $page) {
     id
     description
     createdAt
@@ -137,6 +139,7 @@ export const GetPostsDocument = gql`
  * @example
  * const { data, loading, error } = useGetPostsQuery({
  *   variables: {
+ *      page: // value for 'page'
  *   },
  * });
  */
